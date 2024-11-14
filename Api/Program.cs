@@ -2,6 +2,8 @@ using ActiveMQ.Concrete;
 using ActiveMQ.Discrete;
 using Business.Concrete;
 using Business.Discrete;
+using Kafka.Concrete;
+using Kafka.Discrete;
 using RabbitMQ.Concrete;
 using RabbitMQ.Discrete;
 
@@ -19,6 +21,7 @@ builder.Services.AddScoped<IPublishService, PublishService>();
 builder.Services.AddScoped<IConsumeService, ConsumeService>();
 builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
 builder.Services.AddScoped<IActiveMQService, ActiveMQService>();
+builder.Services.AddScoped<IKafkaService, KafkaService>();
 
 var app = builder.Build();
 
@@ -40,6 +43,7 @@ ThreadPool.QueueUserWorkItem(async delegate
     var consumeService = scope.ServiceProvider.GetRequiredService<IConsumeService>();
     await consumeService.RegisterViaRabbitMQAsync();
     await consumeService.RegisterViaActiveMQAsync();
+    await consumeService.RegisterViaKafkaAsync();
 });
 
 app.Run();

@@ -30,5 +30,12 @@ namespace Api.Controllers
             await _publishService.RegisterViaActiveMQAsync(register);
             return Created();
         }
+
+        [HttpPost(nameof(RegisterViaKafkaAsync))]
+        public async Task<IActionResult> RegisterViaKafkaAsync(Register register)
+        {
+            await _publishService.RegisterViaKafkaAsync(register);
+            return Created();
+        }
     }
 }

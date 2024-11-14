@@ -4,5 +4,6 @@
     {
         Task RegisterViaRabbitMQAsync();
         Task RegisterViaActiveMQAsync();
+        Task RegisterViaKafkaAsync();
     }
 }

@@ -6,5 +6,6 @@ namespace Business.Discrete
     {
         Task RegisterViaRabbitMQAsync(Register register);
         Task RegisterViaActiveMQAsync(Register register);
+        Task RegisterViaKafkaAsync(Register register);
     }
 }

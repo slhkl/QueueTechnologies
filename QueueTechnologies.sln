@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Busine
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveMQ", "ActiveMQ\ActiveMQ.csproj", "{FE188209-B938-45FD-95CA-6860D0B14715}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kafka", "Kafka\Kafka.csproj", "{F3A1C0B2-18DE-46FF-8185-B3453C9EA10C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FE188209-B938-45FD-95CA-6860D0B14715}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE188209-B938-45FD-95CA-6860D0B14715}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE188209-B938-45FD-95CA-6860D0B14715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A1C0B2-18DE-46FF-8185-B3453C9EA10C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A1C0B2-18DE-46FF-8185-B3453C9EA10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A1C0B2-18DE-46FF-8185-B3453C9EA10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A1C0B2-18DE-46FF-8185-B3453C9EA10C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
