@@ -8,7 +8,8 @@
       "applicationUrl": "http://localhost:1905",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "RABBITMQ_URI": "amqp://root:root@127.0.0.1:5672"
+        "RABBITMQ_URI": "amqp://root:root@127.0.0.1:5672",
+        "ACTIVEMQ_URI": "tcp://root:root@127.0.0.1:61616"
       }
     }
   }

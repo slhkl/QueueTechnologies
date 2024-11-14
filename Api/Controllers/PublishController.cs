@@ -23,5 +23,12 @@ namespace Api.Controllers
             await _publishService.RegisterViaRabbitMQAsync(register);
             return Created();
         }
+
+        [HttpPost(nameof(RegisterViaActiveMQAsync))]
+        public async Task<IActionResult> RegisterViaActiveMQAsync(Register register)
+        {
+            await _publishService.RegisterViaActiveMQAsync(register);
+            return Created();
+        }
     }
 }

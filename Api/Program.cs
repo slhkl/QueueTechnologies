@@ -1,3 +1,5 @@
+using ActiveMQ.Concrete;
+using ActiveMQ.Discrete;
 using Business.Concrete;
 using Business.Discrete;
 using RabbitMQ.Concrete;
@@ -16,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPublishService, PublishService>();
 builder.Services.AddScoped<IConsumeService, ConsumeService>();
 builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
+builder.Services.AddScoped<IActiveMQService, ActiveMQService>();
 
 var app = builder.Build();
 
@@ -36,6 +39,7 @@ ThreadPool.QueueUserWorkItem(async delegate
     using var scope = app.Services.CreateAsyncScope();
     var consumeService = scope.ServiceProvider.GetRequiredService<IConsumeService>();
     await consumeService.RegisterViaRabbitMQAsync();
+    await consumeService.RegisterViaActiveMQAsync();
 });
 
 app.Run();

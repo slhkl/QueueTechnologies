@@ -3,5 +3,6 @@
     public interface IConsumeService
     {
         Task RegisterViaRabbitMQAsync();
+        Task RegisterViaActiveMQAsync();
     }
 }
