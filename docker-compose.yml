@@ -10,7 +10,7 @@ services:
       - 15672:15672
     restart: always    
   activemq:
-    image: rmohr/activemq:latest
+    image: apache/activemq-classic
     container_name: ActiveMQ
     environment:
       - ACTIVEMQ_ADMIN_LOGIN=root
