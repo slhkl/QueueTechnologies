@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using Kafka.Discrete;
 using Newtonsoft.Json;
 
@@ -27,6 +28,8 @@ namespace Kafka.Concrete
 
         public async Task ConsumeAsync<T>(string topicName, Action<T> action)
         {
+            await CheckTopicAsync(topicName);
+
             var config = new ConsumerConfig()
             {
                 BootstrapServers = KafkaUri,
@@ -54,6 +57,30 @@ namespace Kafka.Concrete
                     }
                 }
             });
+        }
+
+        private async Task CheckTopicAsync(string topicName)
+        {
+            var adminClient = new AdminClientBuilder(
+                new AdminClientConfig
+                {
+                    BootstrapServers = KafkaUri
+                }
+            ).Build();
+
+            var metaData = adminClient.GetMetadata(TimeSpan.FromSeconds(5));
+            bool topicExists = metaData.Topics.Exists(t => t.Topic == topicName);
+
+            if (!topicExists)
+            {
+                await adminClient.CreateTopicsAsync(new[]
+                {
+                    new TopicSpecification
+                    {
+                        Name = topicName
+                    }
+                });
+            }
         }
     }
 }
