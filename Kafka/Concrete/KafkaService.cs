@@ -41,10 +41,17 @@ namespace Kafka.Concrete
             {
                 while (true)
                 {
-                    var consumeData = consumer.Consume();
-                    var message = JsonConvert.DeserializeObject<T>(consumeData.Message.Value);
-                    if (message is not null)
-                        action(message);
+                    try
+                    {
+                        var consumeData = consumer.Consume();
+                        var message = JsonConvert.DeserializeObject<T>(consumeData.Message.Value);
+                        if (message is not null)
+                            action(message);
+                    }
+                    catch
+                    {
+                        Task.Delay(TimeSpan.FromSeconds(2));
+                    }
                 }
             });
         }
