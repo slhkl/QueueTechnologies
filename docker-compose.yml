@@ -37,3 +37,4 @@ services:
     ports:
       - 9093:9093
       - 9094:9094
+    restart: always
