@@ -10,7 +10,26 @@ namespace ActiveMQ.Concrete
         #region Members
 
         private readonly string ActiveMQUri = Environment.GetEnvironmentVariable("ACTIVEMQ_URI");
+
         private IConnection connection;
+
+        public IConnection Connection
+        {
+            get
+            {
+                if (connection == null)
+                {
+                    ConnectionFactory connectionFactory = new ConnectionFactory()
+                    {
+                        BrokerUri = new Uri(ActiveMQUri)
+                    };
+
+                    connection = connectionFactory.CreateConnectionAsync().Result;
+                }
+
+                return connection;
+            }
+        }
 
         #endregion
 
@@ -48,24 +67,13 @@ namespace ActiveMQ.Concrete
 
         private async Task<ISession> GetSessionAsync()
         {
-            await GetConnectionAsync();
-            await connection.StartAsync();
-            return await connection.CreateSessionAsync(AcknowledgementMode.AutoAcknowledge);
-        }
-
-        private async Task GetConnectionAsync()
-        {
-            ConnectionFactory connectionFactory = new ConnectionFactory()
-            {
-                BrokerUri = new Uri(ActiveMQUri)
-            };
-
-            connection = await connectionFactory.CreateConnectionAsync();
+            await Connection.StartAsync();
+            return await Connection.CreateSessionAsync(AcknowledgementMode.AutoAcknowledge);
         }
 
         public void Dispose()
         {
-            connection?.Dispose();
+            Connection?.Dispose();
         }
     }
 }

@@ -11,7 +11,26 @@ namespace RabbitMQ.Concrete
         #region Members
 
         private readonly string RabbitMQUri = Environment.GetEnvironmentVariable("RABBITMQ_URI");
+
         private IConnection connection;
+
+        public IConnection Connection
+        {
+            get
+            {
+                if (connection == null)
+                {
+                    ConnectionFactory connectionFactory = new ConnectionFactory
+                    {
+                        Uri = new Uri(RabbitMQUri),
+                    };
+
+                    connection = connectionFactory.CreateConnectionAsync().Result;
+                }
+
+                return connection;
+            }
+        }
 
         #endregion
 
@@ -53,23 +72,12 @@ namespace RabbitMQ.Concrete
 
         private async Task<IChannel> GetChannelAsync()
         {
-            await CreateConnectionAsync();
-            return await connection.CreateChannelAsync();
-        }
-
-        private async Task CreateConnectionAsync()
-        {
-            ConnectionFactory connectionFactory = new ConnectionFactory()
-            {
-                Uri = new Uri(RabbitMQUri)
-            };
-
-            connection = await connectionFactory.CreateConnectionAsync();
+            return await Connection.CreateChannelAsync();
         }
 
         public void Dispose()
         {
-            connection?.Dispose();
+            Connection?.Dispose();
         }
     }
 }
