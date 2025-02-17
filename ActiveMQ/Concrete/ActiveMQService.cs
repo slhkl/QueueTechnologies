@@ -5,11 +5,12 @@ using Newtonsoft.Json;
 
 namespace ActiveMQ.Concrete
 {
-    public class ActiveMQService : IActiveMQService
+    public class ActiveMQService : IActiveMQService, IDisposable
     {
         #region Members
 
         private readonly string ActiveMQUri = Environment.GetEnvironmentVariable("ACTIVEMQ_URI");
+        private IConnection connection;
 
         #endregion
 
@@ -47,19 +48,24 @@ namespace ActiveMQ.Concrete
 
         private async Task<ISession> GetSessionAsync()
         {
-            var connection = await GetConnectionAsync();
+            await GetConnectionAsync();
             await connection.StartAsync();
             return await connection.CreateSessionAsync(AcknowledgementMode.AutoAcknowledge);
         }
 
-        private async Task<IConnection> GetConnectionAsync()
+        private async Task GetConnectionAsync()
         {
             ConnectionFactory connectionFactory = new ConnectionFactory()
             {
                 BrokerUri = new Uri(ActiveMQUri)
             };
 
-            return await connectionFactory.CreateConnectionAsync();
+            connection = await connectionFactory.CreateConnectionAsync();
+        }
+
+        public void Dispose()
+        {
+            connection?.Dispose();
         }
     }
 }

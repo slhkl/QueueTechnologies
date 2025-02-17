@@ -6,11 +6,12 @@ using System.Text;
 
 namespace RabbitMQ.Concrete
 {
-    public class RabbitMQService : IRabbitMQService
+    public class RabbitMQService : IRabbitMQService, IDisposable
     {
         #region Members
 
         private readonly string RabbitMQUri = Environment.GetEnvironmentVariable("RABBITMQ_URI");
+        private IConnection connection;
 
         #endregion
 
@@ -52,18 +53,23 @@ namespace RabbitMQ.Concrete
 
         private async Task<IChannel> GetChannelAsync()
         {
-            var connection = await GetConnectionAsync();
+            await CreateConnectionAsync();
             return await connection.CreateChannelAsync();
         }
 
-        private async Task<IConnection> GetConnectionAsync()
+        private async Task CreateConnectionAsync()
         {
             ConnectionFactory connectionFactory = new ConnectionFactory()
             {
                 Uri = new Uri(RabbitMQUri)
             };
 
-            return await connectionFactory.CreateConnectionAsync();
+            connection = await connectionFactory.CreateConnectionAsync();
+        }
+
+        public void Dispose()
+        {
+            connection?.Dispose();
         }
     }
 }
